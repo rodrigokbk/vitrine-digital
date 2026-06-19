@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 const WHATSAPP_MASTER = "5521966882000";
-const MASTER_EMAIL = "COLOQUE_SEU_EMAIL_AQUI";
+const MASTER_EMAIL = "rodrigo.kbk@gmail.com";
 
 const slugify = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
