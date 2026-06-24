@@ -192,9 +192,11 @@ function AuthScreen({ mode, onSuccess, onToggle, onBack }) {
         const slug = slugify(storeName);
         await setDoc(doc(db, "lojas", cred.user.uid), {
           storeName, slug, whatsapp, email,
-          plano: "gratis", ativo: true,
+          plano: "gratis", ativo: false, aprovado: false,
           criadoEm: new Date().toISOString()
         });
+        const msg = encodeURIComponent(`🛍️ Nova loja aguardando aprovação!\nLoja: *${storeName}*\nEmail: ${email}\nAcesse o painel master para aprovar.`);
+        window.open(`https://wa.me/5521966882000?text=${msg}`, "_blank");
       }
       onSuccess();
     } catch (e) {
@@ -356,7 +358,6 @@ function PainelAdmin({ user, lojaData, onLogout, onUpdateLoja }) {
   const emptyTx = { description: "", amount: "", date: "", category: "Venda", type: "receita" };
   const [newTx, setNewTx] = useState(emptyTx);
   const lojaId = user.uid;
-  const MONTHS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
 
   const notify = (msg, type = "success") => { setNotification({ msg, type }); setTimeout(() => setNotification(null), 2500); };
 
@@ -469,7 +470,7 @@ function PainelAdmin({ user, lojaData, onLogout, onUpdateLoja }) {
         );
       })()}
 
-      <div style={{ background: "white", borderBottom: "1px solid #f0ebe5", padding: "0 24px", display: "flex", gap: 4, marginTop: 0 }}>
+      <div style={{ background: "white", borderBottom: "1px solid #f0ebe5", padding: "0 24px", display: "flex", gap: 4 }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setView(t.id)} className={`tab-btn ${view === t.id ? "active" : ""}`}
             style={{ border: "none", background: "transparent", padding: "13px 18px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: view === t.id ? "white" : "#666", borderRadius: "8px 8px 0 0", transition: "all 0.2s" }}>
@@ -705,6 +706,13 @@ function PainelMaster({ onLogout }) {
     } catch { notify("Erro!", "error"); }
   };
 
+  const aprovar = async (loja) => {
+    try {
+      await updateDoc(doc(db, "lojas", loja.id), { aprovado: true, ativo: true });
+      notify(`${loja.storeName} aprovada! ✅`);
+    } catch { notify("Erro!", "error"); }
+  };
+
   const togglePlano = async (loja) => {
     const novoPlano = loja.plano === "pago" ? "gratis" : "pago";
     try {
@@ -722,6 +730,7 @@ function PainelMaster({ onLogout }) {
 
   const pagas = lojas.filter(l => l.plano === "pago").length;
   const gratis = lojas.filter(l => l.plano === "gratis").length;
+  const pendentes = lojas.filter(l => l.aprovado === false);
   const vencendoEm7 = lojas.filter(l => {
     if (l.plano !== "pago") return false;
     const dias = diasParaVencer(l.vencimento);
@@ -748,7 +757,7 @@ function PainelMaster({ onLogout }) {
             { l: "Total de Lojas", v: lojas.length, i: "🏪", c: "#c9a96e" },
             { l: "Planos Pagos", v: pagas, i: "💳", c: "#2ed573" },
             { l: "Planos Grátis", v: gratis, i: "🎁", c: "#a29bfe" },
-            { l: "Lojas Ativas", v: lojas.filter(l => l.ativo).length, i: "✅", c: "#4ecdc4" },
+            { l: "Aguardando", v: pendentes.length, i: "⏳", c: "#ffa502" },
           ].map((c, i) => (
             <div key={i} className="card" style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 14, padding: "20px 22px", animationDelay: `${i*0.08}s` }}>
               <div style={{ fontSize: 28, marginBottom: 8 }}>{c.i}</div>
@@ -758,6 +767,29 @@ function PainelMaster({ onLogout }) {
           ))}
         </div>
 
+        {/* LOJAS AGUARDANDO APROVAÇÃO */}
+        {pendentes.length > 0 && (
+          <div style={{ background: "rgba(201,169,110,0.08)", border: "1.5px solid rgba(201,169,110,0.4)", borderRadius: 14, padding: "16px 20px", marginBottom: 24 }}>
+            <div style={{ fontWeight: 700, color: "#c9a96e", fontSize: 15, marginBottom: 10 }}>🆕 Aguardando aprovação ({pendentes.length})</div>
+            <div style={{ display: "grid", gap: 8 }}>
+              {pendentes.map(l => (
+                <div key={l.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "10px 14px", flexWrap: "wrap", gap: 8 }}>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{l.storeName}</div>
+                    <div style={{ fontSize: 11, color: "#888" }}>{l.email}</div>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <a href={`https://wa.me/${(l.whatsapp || "").replace(/\D/g, "")}?text=${encodeURIComponent(`Olá ${l.storeName}! Sua loja na Vitrine Digital foi aprovada! Acesse: navitrine.vercel.app`)}`} target="_blank" rel="noreferrer"
+                      style={{ background: "#25D366", color: "white", border: "none", borderRadius: 8, padding: "6px 14px", fontWeight: 700, cursor: "pointer", fontSize: 12, textDecoration: "none" }}>💬 WhatsApp</a>
+                    <button onClick={() => aprovar(l)} style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 8, padding: "6px 14px", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>✅ Aprovar</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* LOJAS VENCENDO */}
         {vencendoEm7.length > 0 && (
           <div style={{ background: "rgba(255,165,2,0.08)", border: "1.5px solid rgba(255,165,2,0.3)", borderRadius: 14, padding: "16px 20px", marginBottom: 24 }}>
             <div style={{ fontWeight: 700, color: "#ffa502", fontSize: 15, marginBottom: 10 }}>⏰ Lojas vencendo em breve ({vencendoEm7.length})</div>
@@ -802,9 +834,12 @@ function PainelMaster({ onLogout }) {
                     </span>
                   </td>
                   <td style={{ padding: "13px 16px" }}>
-                    <span style={{ background: l.ativo ? "rgba(46,213,115,0.15)" : "rgba(255,71,87,0.15)", color: l.ativo ? "#2ed573" : "#ff4757", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 16 }}>
-                      {l.ativo ? "✓ Ativa" : "✗ Inativa"}
-                    </span>
+                    {l.aprovado === false
+                      ? <span style={{ background: "rgba(201,169,110,0.15)", color: "#c9a96e", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 16 }}>⏳ Pendente</span>
+                      : <span style={{ background: l.ativo ? "rgba(46,213,115,0.15)" : "rgba(255,71,87,0.15)", color: l.ativo ? "#2ed573" : "#ff4757", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 16 }}>
+                          {l.ativo ? "✓ Ativa" : "✗ Inativa"}
+                        </span>
+                    }
                   </td>
                   <td style={{ padding: "13px 16px" }}>
                     {l.plano === "pago" && l.vencimento ? (() => {
@@ -814,6 +849,7 @@ function PainelMaster({ onLogout }) {
                   </td>
                   <td style={{ padding: "13px 16px" }}>
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {l.aprovado === false && <button onClick={() => aprovar(l)} style={{ background: "#2ed573", color: "white", border: "none", borderRadius: 7, padding: "5px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 }}>✅ Aprovar</button>}
                       <button onClick={() => renovar(l)} style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 7, padding: "5px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 }}>+1 mês</button>
                       <button onClick={() => togglePlano(l)} style={{ background: "#222", color: "#c9a96e", border: "1px solid #333", borderRadius: 7, padding: "5px 10px", cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
                         {l.plano === "pago" ? "→ Grátis" : "→ Pago"}
@@ -870,8 +906,15 @@ export default function App() {
         setUser(u);
         const lojaDoc = await getDoc(doc(db, "lojas", u.uid));
         if (lojaDoc.exists()) {
-          setLojaData({ id: lojaDoc.id, ...lojaDoc.data() });
-          setScreen(u.email === MASTER_EMAIL ? "master" : "admin");
+          const lData = { id: lojaDoc.id, ...lojaDoc.data() };
+          setLojaData(lData);
+          if (u.email === MASTER_EMAIL) {
+            setScreen("master");
+          } else if (lData.aprovado === false) {
+            setScreen("aguardando");
+          } else {
+            setScreen("admin");
+          }
         } else {
           setScreen("admin");
         }
@@ -905,6 +948,22 @@ export default function App() {
   if (screen === "login") return <AuthScreen mode="login" onSuccess={() => {}} onToggle={() => setScreen("register")} onBack={() => setScreen("landing")} />;
   if (screen === "register") return <AuthScreen mode="register" onSuccess={() => {}} onToggle={() => setScreen("login")} onBack={() => setScreen("landing")} />;
   if (screen === "master") return <PainelMaster onLogout={handleLogout} />;
+  if (screen === "aguardando") return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #faf7f4, #f0e8de)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, fontFamily: "'Segoe UI', sans-serif" }}>
+      <div style={{ background: "white", borderRadius: 24, padding: "44px 40px", width: "100%", maxWidth: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.1)", border: "1px solid #f0ebe5", textAlign: "center" }}>
+        <div style={{ fontSize: 56, marginBottom: 16 }}>⏳</div>
+        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, margin: "0 0 12px" }}>Aguardando aprovação</h2>
+        <p style={{ color: "#888", fontSize: 14, lineHeight: 1.7, margin: "0 0 28px" }}>
+          Sua loja foi cadastrada com sucesso! Em breve você receberá a confirmação após o pagamento ser processado.
+        </p>
+        <a href={`https://wa.me/5521966882000?text=${encodeURIComponent("Olá! Acabei de criar minha loja na Vitrine Digital e gostaria de ativar meu acesso.")}`} target="_blank" rel="noreferrer"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#25D366", color: "white", borderRadius: 14, padding: "14px 0", fontSize: 15, fontWeight: 700, textDecoration: "none", marginBottom: 12 }}>
+          💬 Falar com o suporte
+        </a>
+        <button onClick={handleLogout} style={{ width: "100%", background: "#f5f0eb", border: "none", borderRadius: 14, padding: "12px 0", fontWeight: 700, cursor: "pointer", fontSize: 14, color: "#666" }}>Sair</button>
+      </div>
+    </div>
+  );
   if (screen === "admin" && lojaData) return <PainelAdmin user={user} lojaData={lojaData} onLogout={handleLogout} onUpdateLoja={setLojaData} />;
 
   return <LandingPage onGoToLogin={() => setScreen("login")} onGoToRegister={() => setScreen("register")} />;
