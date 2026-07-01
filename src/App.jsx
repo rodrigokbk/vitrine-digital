@@ -122,7 +122,7 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
         .btn-cta:hover { transform: scale(1.04); }
         .btn-outline:hover { background: rgba(0,0,0,0.06) !important; }
       `}</style>
-      <div style={{ padding: "20px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ padding: "20px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
         <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#c9a96e" }}>Vitrine Digital</div>
         <div style={{ display: "flex", gap: 12 }}>
           <button onClick={onGoToLogin} className="btn-outline" style={{ background: "transparent", border: "1.5px solid rgba(0,0,0,0.3)", color: "white", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.2s" }}>Entrar</button>
@@ -154,14 +154,14 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
           { icon: "📊", title: "Finanças", desc: "Registre receitas e despesas, veja seu lucro em tempo real" },
           { icon: "💬", title: "WhatsApp Integrado", desc: "Clientes enviam mensagem com um clique direto para você" },
         ].map((f, i) => (
-          <div key={i} className="card-feat" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,0,0,0.06)", borderRadius: 18, padding: "28px 24px", transition: "all 0.25s" }}>
+          <div key={i} className="card-feat" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.06)", borderRadius: 18, padding: "28px 24px", transition: "all 0.25s" }}>
             <div style={{ fontSize: 36, marginBottom: 14 }}>{f.icon}</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{f.title}</div>
-            <div style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>{f.desc}</div>
+            <div style={{ fontSize: 14, color: "rgba(0,0,0,0.55)", lineHeight: 1.6 }}>{f.desc}</div>
           </div>
         ))}
       </div>
-      <div style={{ textAlign: "center", padding: "40px 40px 60px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ textAlign: "center", padding: "40px 40px 60px", borderTop: "1px solid rgba(0,0,0,0.08)" }}>
         <p style={{ color: "rgba(0,0,0,0.4)", fontSize: 13, margin: "0 0 8px" }}>Pronto para começar?</p>
         <button onClick={onGoToRegister} className="btn-cta" style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 14, padding: "14px 32px", cursor: "pointer", fontSize: 15, fontWeight: 700, transition: "all 0.2s" }}>
           Criar minha vitrine grátis →
@@ -773,7 +773,7 @@ function PainelMaster({ onLogout }) {
             <div style={{ fontWeight: 700, color: "#c9a96e", fontSize: 15, marginBottom: 10 }}>🆕 Aguardando aprovação ({pendentes.length})</div>
             <div style={{ display: "grid", gap: 8 }}>
               {pendentes.map(l => (
-                <div key={l.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "10px 14px", flexWrap: "wrap", gap: 8 }}>
+                <div key={l.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.04)", borderRadius: 10, padding: "10px 14px", flexWrap: "wrap", gap: 8 }}>
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>{l.storeName}</div>
                     <div style={{ fontSize: 11, color: "#888" }}>{l.email}</div>
@@ -797,7 +797,7 @@ function PainelMaster({ onLogout }) {
               {vencendoEm7.map(l => {
                 const s = statusVencimento(l.vencimento);
                 return (
-                  <div key={l.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "10px 14px", flexWrap: "wrap", gap: 8 }}>
+                  <div key={l.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.04)", borderRadius: 10, padding: "10px 14px", flexWrap: "wrap", gap: 8 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <span style={{ fontSize: 18 }}>{s.icon}</span>
                       <div>
