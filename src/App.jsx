@@ -106,7 +106,7 @@ function ImageUploader({ images, onChange }) {
 
 function LandingPage({ onGoToLogin, onGoToRegister }) {
   return (
-    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#0f0f0f", color: "white", overflow: "hidden" }}>
+    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#e8f5e9", color: "white", overflow: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
         * { box-sizing: border-box; } body { margin: 0; }
@@ -134,7 +134,7 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
         <h1 className="fade1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 900, margin: "0 0 20px", lineHeight: 1.1 }}>
           Sua loja online em<br /><span style={{ color: "#c9a96e" }}>minutos</span>
         </h1>
-        <p className="fade2" style={{ fontSize: "clamp(15px, 2vw, 19px)", color: "rgba(255,255,255,0.6)", margin: "0 0 40px", lineHeight: 1.7, maxWidth: 580, marginLeft: "auto", marginRight: "auto" }}>
+        <p className="fade2" style={{ fontSize: "clamp(15px, 2vw, 19px)", color: "rgba(0,0,0,0.6)", margin: "0 0 40px", lineHeight: 1.7, maxWidth: 580, marginLeft: "auto", marginRight: "auto" }}>
           Crie sua vitrine virtual, gerencie produtos, controle finanças e receba pedidos direto no WhatsApp. Sem complicação.
         </p>
         <div className="fade3" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
@@ -738,7 +738,7 @@ function PainelMaster({ onLogout }) {
   });
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#0f0f0f", color: "white" }}>
+    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#e8f5e9", color: "white" }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap'); *{box-sizing:border-box;} body{margin:0;} @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}} @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}} .card{animation:fadeUp 0.4s ease both;}`}</style>
 
       <Notification msg={notification?.msg} type={notification?.type} />
@@ -931,7 +931,7 @@ export default function App() {
   const handleLogout = async () => { await signOut(auth); setScreen("landing"); };
 
   if (loading) return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0f0f0f" }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#e8f5e9" }}>
       <div style={{ textAlign: "center", color: "#c9a96e", fontFamily: "sans-serif" }}>
         <div style={{ fontSize: 48, marginBottom: 12 }}>🛍️</div>
         <div style={{ fontSize: 14 }}>Carregando...</div>
