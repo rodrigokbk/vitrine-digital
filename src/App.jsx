@@ -125,7 +125,7 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
       <div style={{ padding: "20px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
         <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#c9a96e" }}>Vitrine Digital</div>
         <div style={{ display: "flex", gap: 12 }}>
-          <button onClick={onGoToLogin} className="btn-outline" style={{ background: "transparent", border: "1.5px solid rgba(0,0,0,0.3)", color: "white", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.2s" }}>Entrar</button>
+          <button onClick={onGoToLogin} className="btn-outline" style={{ background: "transparent", border: "1.5px solid rgba(0,0,0,0.3)", color: "#1a1a1a", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.2s" }}>Entrar</button>
           <button onClick={onGoToRegister} className="btn-cta" style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 700, transition: "all 0.2s" }}>Criar minha loja</button>
         </div>
       </div>
