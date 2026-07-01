@@ -106,7 +106,7 @@ function ImageUploader({ images, onChange }) {
 
 function LandingPage({ onGoToLogin, onGoToRegister }) {
   return (
-    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#e8f5e9", color: "white", overflow: "hidden" }}>
+    <div style={{ fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#e8f5e9", color: "#1a1a1a", overflow: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
         * { box-sizing: border-box; } body { margin: 0; }
@@ -120,12 +120,12 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
         .fade4 { animation: fadeUp 0.7s 0.45s ease both; }
         .card-feat:hover { transform: translateY(-6px); background: rgba(201,169,110,0.12) !important; }
         .btn-cta:hover { transform: scale(1.04); }
-        .btn-outline:hover { background: rgba(255,255,255,0.08) !important; }
+        .btn-outline:hover { background: rgba(0,0,0,0.06) !important; }
       `}</style>
       <div style={{ padding: "20px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#c9a96e" }}>Vitrine Digital</div>
         <div style={{ display: "flex", gap: 12 }}>
-          <button onClick={onGoToLogin} className="btn-outline" style={{ background: "transparent", border: "1.5px solid rgba(255,255,255,0.2)", color: "white", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.2s" }}>Entrar</button>
+          <button onClick={onGoToLogin} className="btn-outline" style={{ background: "transparent", border: "1.5px solid rgba(0,0,0,0.3)", color: "white", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.2s" }}>Entrar</button>
           <button onClick={onGoToRegister} className="btn-cta" style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 10, padding: "9px 20px", cursor: "pointer", fontSize: 14, fontWeight: 700, transition: "all 0.2s" }}>Criar minha loja</button>
         </div>
       </div>
@@ -154,7 +154,7 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
           { icon: "📊", title: "Finanças", desc: "Registre receitas e despesas, veja seu lucro em tempo real" },
           { icon: "💬", title: "WhatsApp Integrado", desc: "Clientes enviam mensagem com um clique direto para você" },
         ].map((f, i) => (
-          <div key={i} className="card-feat" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 18, padding: "28px 24px", transition: "all 0.25s" }}>
+          <div key={i} className="card-feat" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,0,0,0.06)", borderRadius: 18, padding: "28px 24px", transition: "all 0.25s" }}>
             <div style={{ fontSize: 36, marginBottom: 14 }}>{f.icon}</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{f.title}</div>
             <div style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>{f.desc}</div>
@@ -162,11 +162,11 @@ function LandingPage({ onGoToLogin, onGoToRegister }) {
         ))}
       </div>
       <div style={{ textAlign: "center", padding: "40px 40px 60px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: "0 0 8px" }}>Pronto para começar?</p>
+        <p style={{ color: "rgba(0,0,0,0.4)", fontSize: 13, margin: "0 0 8px" }}>Pronto para começar?</p>
         <button onClick={onGoToRegister} className="btn-cta" style={{ background: "#c9a96e", color: "white", border: "none", borderRadius: 14, padding: "14px 32px", cursor: "pointer", fontSize: 15, fontWeight: 700, transition: "all 0.2s" }}>
           Criar minha vitrine grátis →
         </button>
-        <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 12, marginTop: 16 }}>Vitrine Digital · {new Date().getFullYear()}</p>
+        <p style={{ color: "rgba(0,0,0,0.3)", fontSize: 12, marginTop: 16 }}>Vitrine Digital · {new Date().getFullYear()}</p>
       </div>
     </div>
   );
