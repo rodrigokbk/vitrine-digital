@@ -759,7 +759,7 @@ function PainelMaster({ onLogout }) {
             { l: "Planos Grátis", v: gratis, i: "🎁", c: "#a29bfe" },
             { l: "Aguardando", v: pendentes.length, i: "⏳", c: "#ffa502" },
           ].map((c, i) => (
-            <div key={i} className="card" style={{ background: #ffffff, border: 1px solid #e8e0d8", borderRadius: 14, padding: "20px 22px", animationDelay: `${i*0.08}s` }}>
+            <div key={i} className="card" style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 14, padding: "20px 22px", animationDelay: `${i*0.08}s` }}>
               <div style={{ fontSize: 28, marginBottom: 8 }}>{c.i}</div>
               <div style={{ fontSize: 26, fontWeight: 800, color: c.c }}>{c.v}</div>
               <div style={{ fontSize: 12, color: "#555", marginTop: 2 }}>{c.l}</div>
